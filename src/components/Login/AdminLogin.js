@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import useState from 'react-usestateref'
+import {Link} from 'react-router-dom'
 
 const AdminLogin = () => {
   const [adminDetails, setAdminDetails, getAdminDetails] = useState({
@@ -64,7 +65,7 @@ console.log(a)
           }, 3000)
         }
       } else {
-        // use redux here to store student data and then navigate to home page
+        // use redux here to store student data and then navigate to login home page
 
       }
     })
@@ -76,7 +77,7 @@ console.log(a)
       <form className="flex flex-col gap-y-[2vh] py-[1.5vh]">
         <div className="flex flex-col gap-y-[1vh]">
           <label htmlFor="adminEmail">
-            <h2 className="text-sm md:text-xl text-red-600 font-serif">
+            <h2 className="text-sm md:text-xl text-red-600 font-serif font-medium underline">
               Email
             </h2>
           </label>
@@ -92,7 +93,7 @@ console.log(a)
 
         <div className="flex flex-col gap-y-[1vh]">
           <label htmlFor="adminPassword">
-            <h2 className="text-sm md:text-xl text-red-600 font-serif">
+            <h2 className="text-sm md:text-xl text-red-600 font-serif font-medium underline">
               Password
             </h2>
           </label>
@@ -108,7 +109,7 @@ console.log(a)
 
         <div className="flex flex-col gap-y-[1vh]">
           <label htmlFor="adminSchool">
-            <h2 className="text-sm md:text-xl text-red-600 font-serif">
+            <h2 className="text-sm md:text-xl text-red-600 font-serif font-medium underline">
               School
             </h2>
           </label>
@@ -122,15 +123,20 @@ console.log(a)
           />
         </div>
 
-        <div className="my-[1.5vh]">
+        <div className="">
           <button
             type="button"
-            className="w-[20vw] md:w-[10vw] border-[0.5px] md:border-[2px] bg-red-600 text-white font-serif px-[1vw] py-[0.75vh] rounded-md text-sm md:text-xl "
+            className="w-[20vw] md:w-[10vw] border-[0.5px] md:border-[2px] bg-red-600 text-white font-serif px-[1vw] py-[0.75vh] rounded-md text-sm md:text-xl focus:outline-none"
             onClick={handleSubmit}
           >
             Login
           </button>
         </div>
+
+        <div className='flex -mt-[1vh]'>
+          <Link to='/signin' className='text-[0.6rem] md:text-[0.95rem] font-medium  text-red-500 underline focus:outline-none'>SignIn Instead</Link>
+        </div>
+
       </form>
     </div>
   )

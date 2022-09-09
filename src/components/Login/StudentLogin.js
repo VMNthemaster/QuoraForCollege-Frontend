@@ -1,6 +1,7 @@
 import React from 'react'
 import useState from 'react-usestateref'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 const StudentLogin = () => {
   const [studentDetails, setStudentDetails, getStudentDetails] = useState({
@@ -100,14 +101,18 @@ const StudentLogin = () => {
           />
         </div>
 
-        <div className="my-[1.5vh]">
+        <div className="">
           <button
             type="button"
-            className="w-[20vw] md:w-[10vw] border-[0.5px] md:border-[2px] bg-red-600 text-white font-serif px-[1vw] py-[0.75vh] rounded-md text-sm md:text-xl"
+            className="w-[20vw] md:w-[10vw] border-[0.5px] md:border-[2px] bg-red-600 text-white font-serif px-[1vw] py-[0.75vh] rounded-md text-sm md:text-xl focus:outline-none"
             onClick={handleSubmit}
           >
             Login
-          </button>
+          </button>       
+        </div>
+
+        <div className='flex -mt-[1vh]'>
+          <Link to='/signin' className='text-[0.6rem] md:text-[0.95rem] font-medium  text-red-500 underline focus:outline-none'>SignIn Instead</Link>
         </div>
       </form>
     </div>
