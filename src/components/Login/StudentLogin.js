@@ -9,7 +9,7 @@ import { actions } from '../../state/index'
 const StudentLogin = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { setUserDetails } = bindActionCreators( actions, dispatch )
+  const { setUserDetails, setStudentLoginDetails } = bindActionCreators( actions, dispatch )
 
   const [studentDetails, setStudentDetails, getStudentDetails] = useState({
     studentEmail: '',
@@ -35,7 +35,6 @@ const StudentLogin = () => {
         password: getStudentDetails.current.studentPassword,
       })
       .catch((err) => {
-        console.log('error')
         return {
           data: {
             message: err.response.data.message || '',
@@ -51,7 +50,6 @@ const StudentLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     sendRequestToBackend().then((data) => {
-      console.log(data)
       if (!data.success) {
         if (data.status === 400) {
           setErrorMessage(data.message)
@@ -75,7 +73,8 @@ const StudentLogin = () => {
           userId: data.existingUser._id
         }
         setUserDetails(storeData)
-        navigate('/home')
+        setStudentLoginDetails(true)
+        navigate('/student')
       }
     })
   }

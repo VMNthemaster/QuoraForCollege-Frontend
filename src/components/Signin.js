@@ -37,7 +37,6 @@ const Signin = () => {
         password: getUserDetails.current.password || ''
       })
       .catch((err) => {
-        console.log('error')
         return {
           data: {
             message: err.response.data.message,
@@ -58,7 +57,6 @@ const Signin = () => {
       }
     })
   }
-  console.log(userDetails)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -79,16 +77,14 @@ const Signin = () => {
         }
       } else {
         // use redux here to store student data and then navigate to login page
-        console.log(data)
         const storeData = {
           name: data.newUser.name,
           email: data.newUser.email,
           school: data.newUser.school,
           userId: data.newUser._id
         }
-        console.log(storeData)
         setDetails(storeData)
-        navigate('/home')
+        navigate('/')
       }
     })
   }
@@ -114,6 +110,7 @@ const Signin = () => {
               type="text"
               name="name"
               id="name"
+              value={userDetails.name}
               onChange={handleChange}
               className="w-[80vw] md:w-[40vw] h-[4.5vh] px-[0.5vw] py-[0.75vh] border-[0.5px] md:border-[2px] border-gray-600 rounded-sm"
             />
@@ -129,6 +126,7 @@ const Signin = () => {
               type="email"
               name="email"
               id="email"
+              value={userDetails.email}
               onChange={handleChange}
               className="w-[80vw] md:w-[40vw] h-[4.5vh] px-[0.5vw] py-[0.75vh] border-[0.5px] md:border-[2px] border-gray-600 rounded-sm"
             />
@@ -144,6 +142,7 @@ const Signin = () => {
               type="password"
               name="password"
               id="password"
+              value={userDetails.password}
               onChange={handleChange}
               className="w-[80vw] md:w-[40vw] h-[4.5vh] px-[0.5vw] py-[0.75vh] border-[0.5px] md:border-[2px] border-gray-600 rounded-sm"
             />

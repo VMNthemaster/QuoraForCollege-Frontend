@@ -9,7 +9,7 @@ import { actions } from '../../state/index'
 const AdminLogin = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { setUserDetails } = bindActionCreators( actions, dispatch )
+  const { setUserDetails, setAdminLoginDetails } = bindActionCreators( actions, dispatch )
 
   const [adminDetails, setAdminDetails, getAdminDetails] = useState({
     adminEmail: '',
@@ -29,7 +29,6 @@ const AdminLogin = () => {
         school: getAdminDetails.current.adminSchool || ''
       })
       .catch((err) => {
-        console.log('error')
         return {
           data: {
             message: err.response.data.message,
@@ -55,7 +54,6 @@ const AdminLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     sendRequestToBackend().then((data) => {
-      console.log(data)
       if (!data.success) {
         if (data.status === 400) {
           setErrorMessage(data.message)
@@ -72,16 +70,15 @@ const AdminLogin = () => {
         }
       } else {
         // use redux here to store student data and then navigate to login home page
-        console.log(data)
         const storeData = {
           name: data.existingUser.name,
           email: data.existingUser.email,
           school: data.existingUser.school,
           userId: data.existingUser._id
         }
-        console.log(storeData)
         setUserDetails(storeData)
-        navigate('/home')
+        setAdminLoginDetails(true)
+        navigate('/admin')
       }
     })
   }

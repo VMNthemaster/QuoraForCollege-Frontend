@@ -14,3 +14,21 @@ export const getUserDetails = () => {
         })
     }
 }
+
+export const setStudentLoginDetails = (bool) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'setStudentLoginDetails',
+            payload: bool
+        })
+    }
+}
+
+export const setAdminLoginDetails = (bool) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'setAdminLoginDetails',
+            payload: bool
+        })
+    }
+}
