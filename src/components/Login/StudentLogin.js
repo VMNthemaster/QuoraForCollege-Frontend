@@ -1,9 +1,16 @@
 import React from 'react'
 import useState from 'react-usestateref'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from '../../state/index'
 
 const StudentLogin = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { setUserDetails } = bindActionCreators( actions, dispatch )
+
   const [studentDetails, setStudentDetails, getStudentDetails] = useState({
     studentEmail: '',
     studentPassword: '',
@@ -61,13 +68,27 @@ const StudentLogin = () => {
         }
       } else {
         // use redux here to store student data and then navigate to home page
+        const storeData = {
+          name: data.existingUser.name,
+          email: data.existingUser.email,
+          school: data.existingUser.school,
+          userId: data.existingUser._id
+        }
+        setUserDetails(storeData)
+        navigate('/home')
       }
     })
   }
 
   return (
     <div className="flex flex-col w-[90vw] md:w-[50vw] px-[1.25vw] md:px-[1.5vw] py-[1vw] border-[0.5px] md:border-[2px] border-red-600 rounded-md">
-      <div className='mx-auto'>{showErrorMessage && errorMessage && <h1 className='text-[0.6rem] md:text-[1rem] font-serif font-semibold underline'>{errorMessage}</h1>}</div>
+      <div className="mx-auto">
+        {showErrorMessage && errorMessage && (
+          <h1 className="text-[0.6rem] md:text-[1rem] font-serif font-semibold underline">
+            {errorMessage}
+          </h1>
+        )}
+      </div>
       <form className="flex flex-col gap-y-[2vh] py-[1.5vh]">
         <div className="flex flex-col gap-y-[1vh]">
           <label htmlFor="studentEmail">
@@ -108,11 +129,16 @@ const StudentLogin = () => {
             onClick={handleSubmit}
           >
             Login
-          </button>       
+          </button>
         </div>
 
-        <div className='flex -mt-[1vh]'>
-          <Link to='/signin' className='text-[0.6rem] md:text-[0.95rem] font-medium  text-red-500 underline focus:outline-none'>SignIn Instead</Link>
+        <div className="flex -mt-[1vh]">
+          <Link
+            to="/signin"
+            className="text-[0.6rem] md:text-[0.95rem] font-medium  text-red-500 underline focus:outline-none"
+          >
+            SignIn Instead
+          </Link>
         </div>
       </form>
     </div>

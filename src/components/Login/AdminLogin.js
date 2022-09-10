@@ -1,16 +1,22 @@
 import axios from 'axios'
 import React from 'react'
 import useState from 'react-usestateref'
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from '../../state/index'
 
 const AdminLogin = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { setUserDetails } = bindActionCreators( actions, dispatch )
+
   const [adminDetails, setAdminDetails, getAdminDetails] = useState({
     adminEmail: '',
     adminPassword: '',
     adminSchool: '',
   })
-  let a = adminDetails.adminPassword
-console.log(a)
+
   const [errorMessage, setErrorMessage] = useState('')
   const [showErrorMessage, setShowErrorMessage] = useState(false)
 
@@ -66,7 +72,16 @@ console.log(a)
         }
       } else {
         // use redux here to store student data and then navigate to login home page
-
+        console.log(data)
+        const storeData = {
+          name: data.existingUser.name,
+          email: data.existingUser.email,
+          school: data.existingUser.school,
+          userId: data.existingUser._id
+        }
+        console.log(storeData)
+        setUserDetails(storeData)
+        navigate('/home')
       }
     })
   }

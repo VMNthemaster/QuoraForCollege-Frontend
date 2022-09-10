@@ -1,8 +1,16 @@
 import React from 'react'
 import useState from 'react-usestateref'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from '../state'
 
 const Signin = () => {
+  const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { setUserDetails: setDetails } = bindActionCreators( actions, dispatch )
+
   const [userDetails, setUserDetails, getUserDetails] = useState({
     name: '',
     email: '',
@@ -72,6 +80,15 @@ const Signin = () => {
       } else {
         // use redux here to store student data and then navigate to login page
         console.log(data)
+        const storeData = {
+          name: data.newUser.name,
+          email: data.newUser.email,
+          school: data.newUser.school,
+          userId: data.newUser._id
+        }
+        console.log(storeData)
+        setDetails(storeData)
+        navigate('/home')
       }
     })
   }

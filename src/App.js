@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
+import HomePage from './components/HomePage'
 import LandingPage from './components/LandingPage'
 import WithNav from './components/Layout/WithNav'
 import WithoutNav from './components/Layout/WithoutNav'
@@ -16,7 +17,7 @@ function App() {
               <Route path="/signin" element={<Signin />} />
             </Route>
             <Route element={<WithNav />}>
-              {/* <Route path='/' element={<LandingPage />}  /> */}
+              <Route path='/home' element={<HomePage />}  />
             </Route>
           </Routes>
         </Router>
