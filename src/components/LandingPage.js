@@ -1,9 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useState from 'react-usestateref'
 import StudentLogin from '../components/Login/StudentLogin.js'
 import AdminLogin from '../components/Login/AdminLogin.js'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const LandingPage = () => {
+  const isStudentLoggedIn = useSelector((state) => state.isStudentLoggedIn)
+  const isAdminLoggedIn = useSelector((state) => state.isAdminLoggedIn)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(isStudentLoggedIn){
+      navigate('/student')
+    }
+    else if(isAdminLoggedIn){
+      navigate('/admin')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
   const [value, setValue, getValue] = useState(1)
   const FOCUSED_TAB =
     'border-[0.5px] md:border-[2px] border-white bg-red-600 text-white'
@@ -20,7 +36,7 @@ const LandingPage = () => {
   }
   return (
     <>
-      <div className="py-[5vh] min-h-[100vh] bg-gray-100">
+      <div className="py-[15vh] min-h-[100vh] bg-gray-100">
         <div className="flex flex-col items-center gap-y-[3vh] md:gap-y-[5vh] py-[2vh] md:mx-[20vw] md:border-[2px] md:border-gray-300 rounded-md bg-violet-50">
           <h1 className="text-gray-600 text-sm md:text-2xl font-serif ">
             Login to Quora For College

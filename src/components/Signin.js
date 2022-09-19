@@ -22,11 +22,10 @@ const Signin = () => {
   const sendRequestToBackend = async () => {
     if(getUserDetails.current.name.length === 0 || getUserDetails.current.email.length === 0 || getUserDetails.current.password.length === 0){
       return {
-        // data: {
           message: 'All fields are required',
           success: false,
           status: 400,
-        // },
+        
       }
     }
     const url = 'http://localhost:5000/api/users/signup'

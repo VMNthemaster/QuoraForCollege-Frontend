@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 import AdminHomePage from './components/AdminHomePage'
 import LandingPage from './components/LandingPage'
@@ -10,10 +10,10 @@ import Signin from './components/Signin'
 import StudentHomePage from './components/StudentHomePage'
 
 function App() {
-  const isStudentLoggedIn = useSelector((state) => state.isStudentLoggedIn)
-  const isAdminLoggedIn = useSelector((state) => state.isAdminLoggedIn)
-  console.log(isAdminLoggedIn, isStudentLoggedIn)
-  console.log(isAdminLoggedIn, isStudentLoggedIn)
+  // const isStudentLoggedIn = useSelector((state) => state.isStudentLoggedIn)
+  // const isAdminLoggedIn = useSelector((state) => state.isAdminLoggedIn)
+  // console.log(isAdminLoggedIn, isStudentLoggedIn)
+  // console.log(isAdminLoggedIn, isStudentLoggedIn)
 
   return (
     <React.Fragment>

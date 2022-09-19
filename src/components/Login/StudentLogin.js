@@ -9,7 +9,7 @@ import { actions } from '../../state/index'
 const StudentLogin = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { setUserDetails, setStudentLoginDetails } = bindActionCreators( actions, dispatch )
+  const { setUserDetails, setStudentLoginDetails, setAdminLoginDetails } = bindActionCreators( actions, dispatch )
 
   const [studentDetails, setStudentDetails, getStudentDetails] = useState({
     studentEmail: '',
@@ -74,6 +74,7 @@ const StudentLogin = () => {
         }
         setUserDetails(storeData)
         setStudentLoginDetails(true)
+        setAdminLoginDetails(false)
         navigate('/student')
       }
     })
