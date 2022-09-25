@@ -9,7 +9,7 @@ import { actions } from '../../state/index'
 const StudentLogin = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { setUserDetails, setStudentLoginDetails, setAdminLoginDetails } = bindActionCreators( actions, dispatch )
+  const { setUserDetails, setStudentLoginDetails, setAdminLoginDetails, setUpvoteDetails, setDownvoteDetails } = bindActionCreators( actions, dispatch )
 
   const [studentDetails, setStudentDetails, getStudentDetails] = useState({
     studentEmail: '',
@@ -65,6 +65,7 @@ const StudentLogin = () => {
           }, 3000)
         }
       } else {
+        console.log(data)
         // use redux here to store student data and then navigate to home page
         const storeData = {
           name: data.existingUser.name,
@@ -75,6 +76,8 @@ const StudentLogin = () => {
         setUserDetails(storeData)
         setStudentLoginDetails(true)
         setAdminLoginDetails(false)
+        setUpvoteDetails(data.existingUser.upvotedAnswers)
+        setDownvoteDetails(data.existingUser.downvotedAnswers)
         navigate('/student')
       }
     })

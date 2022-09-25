@@ -39,7 +39,6 @@ const StudentHomePage = () => {
       if (data.success) {
         setAllQuestions(data.questionsArray.reverse())
         setIsLoading(false)
-        console.log(data)
       }
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,6 +48,7 @@ const StudentHomePage = () => {
     navigate(`/student/${qid}`)
   }
 
+ 
   return (
     <div className="min-h-[91vh] bg-gray-100 ">
       <div className="h-[5vh] w-[94vw] md:w-[60vw] border-[0.5px] md:border-2 border-red-500 rounded-md flex items-center mx-auto ">

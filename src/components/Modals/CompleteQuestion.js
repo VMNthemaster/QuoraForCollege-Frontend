@@ -3,12 +3,23 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BiUpArrow, BiDownArrow } from 'react-icons/bi'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from '../../state'
 
 const CompleteQuestion = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { setUpvoteDetails, setDownvoteDetails } = bindActionCreators(
+    actions,
+    dispatch
+  )
   const questionid = useParams().questionid
   const isStudentLoggedIn = useSelector((state) => state.isStudentLoggedIn)
   const user = useSelector((state) => state.user)
+  const hasUpvoted = useSelector((state) => state.hasUpvoted)
+  const hasDownvoted = useSelector((state) => state.hasDownvoted)
+  // console.log(hasUpvoted)
 
   const [completeQuestion, setCompleteQuestion] = useState({})
   const [completeAnswers, setCompleteAnswers] = useState([])
@@ -24,7 +35,6 @@ const CompleteQuestion = () => {
     if (!isStudentLoggedIn) {
       navigate('/')
     }
-
     async function sendRequestToBackend() {
       const res = await axios
         .get(
@@ -87,7 +97,9 @@ const CompleteQuestion = () => {
         if (data.answersArray.length === 0) {
           setAnswersErrorMessage('No answers yet....Be the first one to answer')
         } else {
-          const sortedAnswers = data.answersArray.sort((a,b) => b.votes - a.votes);
+          const sortedAnswers = data.answersArray.sort(
+            (a, b) => b.votes - a.votes
+          )
           setCompleteAnswers(sortedAnswers)
         }
       }
@@ -135,36 +147,95 @@ const CompleteQuestion = () => {
 
   const handlePostAnswer = (e) => {
     e.preventDefault()
-    sendRequestToBackend().then(data => {
+    sendRequestToBackend().then((data) => {
       console.log(data)
       let answerBody = document.getElementById('answer')
       answerBody.value = ''
-      if(!data.success){
-        if(data.status === 400){
+      if (!data.success) {
+        if (data.status === 400) {
           setPostAnswerErrorMessage(data.message)
           setShowPostAnswerError(true)
           setTimeout(() => {
             setShowPostAnswerError(false)
           }, 3000)
-        }
-        else{
-          setPostAnswerErrorMessage('Internal Server Error, Please Try Again....')
+        } else {
+          setPostAnswerErrorMessage(
+            'Internal Server Error, Please Try Again....'
+          )
           setShowPostAnswerError(true)
           setTimeout(() => {
             setShowPostAnswerError(false)
           }, 3000)
         }
-      }
-      else{
+      } else {
         setPostAnswerErrorMessage('Answer added successfully....')
-          setShowPostAnswerError(true)
-          setTimeout(() => {
-            setShowPostAnswerError(false)
-          }, 3000)
-          navigate(`/student/${questionid}`)
+        setShowPostAnswerError(true)
+        setTimeout(() => {
+          setShowPostAnswerError(false)
+        }, 3000)
+        navigate(`/student/${questionid}`)
       }
     })
   }
+
+  const voteAnswer = async (aid, vote) => {
+    const url = `http://localhost:5000/api/answers/openForAll/${aid}/${vote}`
+    const res = await axios
+      .post(url, {
+        email: user.email,
+      })
+      .catch((err) => {
+        return {
+          data: {
+            message: err.response.data.message,
+            success: err.response.data.success,
+            status: err.response.status,
+          },
+        }
+      })
+    const data = await res.data
+    return data
+  }
+
+  const handleVoteAnswer = (aid, vote) => {
+    if (vote === 'upvote') {
+      if (hasUpvoted.includes(aid)) {
+        console.log('already upvoted')
+        return {
+          message: 'Already upvoted this question',
+          success: false,
+          status: 400,
+        }
+      }
+    } else if (vote === 'downvote') {
+      if (hasDownvoted.includes(aid)) {
+        return {
+          message: 'Already downvoted this question',
+          success: false,
+          status: 400,
+        }
+      }
+    }
+
+    voteAnswer(aid, vote).then((data) => {
+      console.log("data", data)
+      if (data.success) {
+        if (vote === 'upvote') {
+          let newHasUpvoted = hasUpvoted
+          newHasUpvoted.push(aid)
+          setUpvoteDetails([...newHasUpvoted])
+          console.log("reached here")
+        } else if (vote === 'downvote') {
+          let newHasDownvoted = hasDownvoted
+          newHasDownvoted.push(aid)
+          setDownvoteDetails([...newHasDownvoted])
+        }
+      }
+    })
+  }
+
+  // when we logout and login the hasUpvoted and hasDownvoted do not get reset for new user, hence if earlier user has voted for a question, the new user is not able to vote for the question from the same device. So when a user logges out,we should store that votes with the user details in mongodb and when a new user logges in we should retrieve it from there
+
 
   return (
     <div>
@@ -208,7 +279,12 @@ const CompleteQuestion = () => {
                     return (
                       <div className="flex my-[2vh]" key={singleAnswer._id}>
                         <div className="w-[7%] flex flex-col items-center mr-[3%] md:mr-[1%]">
-                          <div className="cursor-pointer">
+                          <div
+                            onClick={() =>
+                              handleVoteAnswer(singleAnswer._id, 'upvote')
+                            }
+                            className="cursor-pointer"
+                          >
                             <BiUpArrow
                               color="green"
                               className="text-sm md:text-2xl"
@@ -227,7 +303,12 @@ const CompleteQuestion = () => {
                               {singleAnswer.votes}
                             </h2>
                           </div>
-                          <div className="cursor-pointer">
+                          <div
+                            onClick={() =>
+                              handleVoteAnswer(singleAnswer._id, 'downvote')
+                            }
+                            className="cursor-pointer"
+                          >
                             <BiDownArrow
                               color="red"
                               className="text-sm md:text-2xl"
@@ -253,11 +334,15 @@ const CompleteQuestion = () => {
           </div>
           <div className="answer flex flex-col gap-y-[1vh] mx-auto text-sm md:text-xl font-serif">
             <div className="flex flex-wrap">
-              <h2 className="font-serif font-semibold text-gray-600">Write your answer</h2>
+              <h2 className="font-serif font-semibold text-gray-600">
+                Write your answer
+              </h2>
             </div>
-            {postAnswerErrorMessage && showPostAnswerError && <div className="answerMessage">
-              <h2>{postAnswerErrorMessage}</h2>
-            </div>}
+            {postAnswerErrorMessage && showPostAnswerError && (
+              <div className="answerMessage">
+                <h2>{postAnswerErrorMessage}</h2>
+              </div>
+            )}
             <textarea
               name="answer"
               id="answer"
@@ -266,13 +351,14 @@ const CompleteQuestion = () => {
               className="w-[98vw] md:w-[60vw] outline-none px-[0.5vw] py-[1vh] border-[0.5px] md:border-2 border-red-500 rounded-md"
               rows="7"
             ></textarea>
-            <div onClick={handlePostAnswer} className="button bg-red-500 w-fit px-[1vw] py-[0.5vh] rounded-sm mb-[2vh]">
+            <div
+              onClick={handlePostAnswer}
+              className="button bg-red-500 w-fit px-[1vw] py-[0.5vh] rounded-sm mb-[2vh]"
+            >
               <button className="text-white text-sm md:text-xl">
                 Post Answer
               </button>
             </div>
-
-            
           </div>
         </div>
       )}
@@ -281,4 +367,3 @@ const CompleteQuestion = () => {
 }
 
 export default CompleteQuestion
-

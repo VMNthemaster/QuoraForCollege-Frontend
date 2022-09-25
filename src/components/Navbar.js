@@ -15,20 +15,45 @@ import ProfileModal from './Modals/ProfileModal'
 const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { setUserDetails, setAdminLoginDetails, setStudentLoginDetails } =
+  const { setUserDetails, setAdminLoginDetails, setStudentLoginDetails, setUpvoteDetails, setDownvoteDetails } =
     bindActionCreators(actions, dispatch)
 
   const user = useSelector((state) => state.user)
   const isStudentLoggedIn = useSelector((state) => state.isStudentLoggedIn)
   const isAdminLoggedIn = useSelector((state) => state.isAdminLoggedIn)
+  const hasUpvoted = useSelector((state) => state.hasUpvoted)
+  const hasDownvoted = useSelector((state) => state.hasDownvoted)
 
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
   const [showHamburger, setShowHamburger] = useState(false)
 
   const handleLogout = () => {
+    const updateUser = async () => {
+      const url = 'http://localhost:5000/api/users/updateUser'
+      const res = await axios
+        .patch(url, {
+          email: user.email,
+          upvotesArray: hasUpvoted,
+          downvotesArray: hasDownvoted,
+        })
+        .catch((err) => {
+          return {
+            data: {
+              message: err.response.data.message,
+              success: err.response.data.success,
+              status: err.response.status,
+            },
+          }
+        })
+      const data = await res.data
+      return data
+    }
+    updateUser()
     setShowHamburger((prevValue) => !prevValue)
     setUserDetails({})
+    setUpvoteDetails([])
+    setDownvoteDetails([])
     setStudentLoginDetails(false)
     setAdminLoginDetails(false)
     navigate('/')

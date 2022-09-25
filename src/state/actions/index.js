@@ -32,3 +32,22 @@ export const setAdminLoginDetails = (bool) => {
         })
     }
 }
+
+export const setUpvoteDetails = (aid) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'setUpvoteDetails',
+            payload: aid
+        })
+    }
+}
+
+export const setDownvoteDetails = (aid) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'setDownvoteDetails',
+            payload: aid
+        })
+    }
+}
+
