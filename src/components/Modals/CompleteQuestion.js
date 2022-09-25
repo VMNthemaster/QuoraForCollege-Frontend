@@ -30,6 +30,8 @@ const CompleteQuestion = () => {
   const [answerDetails, setAnswerDetails] = useState({
     answer: '',
   })
+  const [voteMessage, setVoteMessage] = useState('')
+  const [showVoteMessage, setShowVoteMessage] = useState(false)
 
   useEffect(() => {
     if (!isStudentLoggedIn) {
@@ -54,6 +56,7 @@ const CompleteQuestion = () => {
     }
 
     sendRequestToBackend().then((data) => {
+
       if (!data.success) {
         // seterror messages as data not found
         if (data.status === 400) {
@@ -66,6 +69,11 @@ const CompleteQuestion = () => {
       }
     })
 
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasUpvoted, hasDownvoted])
+
+  useEffect(() => {
     const getAnswers = async () => {
       const res = await axios
         .get(
@@ -99,14 +107,15 @@ const CompleteQuestion = () => {
         } else {
           const sortedAnswers = data.answersArray.sort(
             (a, b) => b.votes - a.votes
-          )
-          setCompleteAnswers(sortedAnswers)
+            )
+            setCompleteAnswers(sortedAnswers)
+            console.log(sortedAnswers)
         }
       }
     })
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  
 
   const handleAnswerChange = (e) => {
     setAnswerDetails((prevDetails) => {
@@ -117,6 +126,7 @@ const CompleteQuestion = () => {
     })
   }
 
+  // add answer
   const sendRequestToBackend = async (e) => {
     if (!answerDetails.answer) {
       return {
@@ -168,6 +178,9 @@ const CompleteQuestion = () => {
           }, 3000)
         }
       } else {
+        let newCompleteAnswers = completeAnswers
+        newCompleteAnswers.push(data.answerDocument)
+        setCompleteAnswers(newCompleteAnswers)
         setPostAnswerErrorMessage('Answer added successfully....')
         setShowPostAnswerError(true)
         setTimeout(() => {
@@ -200,17 +213,28 @@ const CompleteQuestion = () => {
   const handleVoteAnswer = (aid, vote) => {
     if (vote === 'upvote') {
       if (hasUpvoted.includes(aid)) {
-        console.log('already upvoted')
+        setVoteMessage('Already upvoted this answer')
+        setShowVoteMessage(true)
+        setTimeout(() => {
+          setShowVoteMessage(false)
+        }, 3000)
+
         return {
-          message: 'Already upvoted this question',
+          message: 'Already upvoted this answer',
           success: false,
           status: 400,
         }
       }
     } else if (vote === 'downvote') {
       if (hasDownvoted.includes(aid)) {
+        setVoteMessage('Already downvoted this answer')
+        setShowVoteMessage(true)
+        setTimeout(() => {
+          setShowVoteMessage(false)
+        }, 3000)
+
         return {
-          message: 'Already downvoted this question',
+          message: 'Already downvoted this answer',
           success: false,
           status: 400,
         }
@@ -218,13 +242,17 @@ const CompleteQuestion = () => {
     }
 
     voteAnswer(aid, vote).then((data) => {
-      console.log("data", data)
       if (data.success) {
+        setVoteMessage('Vote registered successfully')
+        setShowVoteMessage(true)
+        setTimeout(() => {
+          setShowVoteMessage(false)
+        }, 3000)
+
         if (vote === 'upvote') {
           let newHasUpvoted = hasUpvoted
           newHasUpvoted.push(aid)
           setUpvoteDetails([...newHasUpvoted])
-          console.log("reached here")
         } else if (vote === 'downvote') {
           let newHasDownvoted = hasDownvoted
           newHasDownvoted.push(aid)
@@ -246,6 +274,10 @@ const CompleteQuestion = () => {
       )}
       {!errorMessage && (
         <div className="bg-gray-100 min-h-[91vh] md:py-[3vh] flex flex-col gap-y-[3vh] justify-between">
+          {voteMessage && showVoteMessage && <div className="fixed mt-[5vh] w-fit px-[1vw] py-[0.75vh] horizontalCenter bg-red-500 text-[0.7rem] md:text-xl rounded-sm text-white font-serif">
+            <h2 className="vote-message">{voteMessage}</h2>
+          </div>}
+
           <div className="w-[98vw] md:w-[60vw] flex flex-col mx-auto md:border-2 md:border-red-500 px-[1vw] py-[1vh] rounded-md bg-white">
             <div className="question flex flex-wrap">
               <h2 className="text-lg md:text-2xl font-serif">

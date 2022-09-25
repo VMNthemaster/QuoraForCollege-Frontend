@@ -131,6 +131,7 @@ const CreateQuestion = (props) => {
         }
       }
       else{
+        setIsCreateQuestionModalOpen(false)
         navigate('/student')
       }
     })

@@ -29,8 +29,8 @@ const ProfileModal = (props) => {
         <span className="underline underline-offset-2">School:</span>{' '}
         {user.school}
       </h2>
-      <div className="mx-auto w-[50%] flex flex-wrap border-[0.5px] md:border-2 border-white rounded-md py-[1vh] px-[0.5vw] justify-center bg-white">
-        <h2 className="font-serif text-green-800 font-medium text-sm md:text-xl cursor-pointer">
+      <div className="mx-auto w-[50%] flex flex-wrap border-[0.5px] md:border-2 border-white rounded-md py-[1vh] px-[0.5vw] justify-center bg-white cursor-pointer">
+        <h2 className="font-serif text-green-800 font-medium text-sm md:text-xl ">
           Switch to{' '}
           {window.location.pathname.startsWith('/student')
             ? 'School'
