@@ -15,3 +15,13 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+.clickEffect {
+  transition: .2s all;
+  
+}
+
+.clickEffect:active {
+  transform: scale(0.95);
+  
+}

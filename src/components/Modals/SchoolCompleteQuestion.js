@@ -6,8 +6,10 @@ import { BiUpArrow, BiDownArrow } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from '../../state'
+import '../../App.css'
 
-const CompleteQuestion = () => {
+const SchoolCompleteQuestion = () => {
+  const {school} = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { setUpvoteDetails, setDownvoteDetails } = bindActionCreators(
@@ -39,7 +41,7 @@ const CompleteQuestion = () => {
     async function sendRequestToBackend() {
       const res = await axios
         .get(
-          `http://localhost:5000/api/questions/openForAll/getSingleQuestion/${questionid}`
+          `http://localhost:5000/api/questions/${school}/getSingleQuestion/${questionid}`
         )
         .catch((err) => {
           return {
@@ -76,7 +78,7 @@ const CompleteQuestion = () => {
     const getAnswers = async () => {
       const res = await axios
         .get(
-          `http://localhost:5000/api/questions/openForAll/${questionid}/getAllAnswers`
+          `http://localhost:5000/api/questions/${school}/${questionid}/getAllAnswers`
         )
         .catch((err) => {
           return {
@@ -114,7 +116,6 @@ const CompleteQuestion = () => {
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
 
   const handleAnswerChange = (e) => {
     setAnswerDetails((prevDetails) => {
@@ -125,7 +126,6 @@ const CompleteQuestion = () => {
     })
   }
 
-  // add answer
   const sendRequestToBackend = async (e) => {
     if (!answerDetails.answer) {
       return {
@@ -134,11 +134,11 @@ const CompleteQuestion = () => {
         status: 400,
       }
     }
-    const url = `http://localhost:5000/api/questions/openForAll/${questionid}/addAnswer`
+    const url = `http://localhost:5000/api/questions/${school}/${questionid}/addAnswer`
     const res = await axios
       .post(url, {
-        name: user.name,
-        email: user.email,
+        name: user.schoolName,
+        email: user.schoolEmail,
         answer: answerDetails.answer,
       })
       .catch((err) => {
@@ -185,16 +185,16 @@ const CompleteQuestion = () => {
         setTimeout(() => {
           setShowPostAnswerError(false)
         }, 3000)
-        navigate(`/student/${questionid}`)
+        navigate(`/${school}/${questionid}`)
       }
     })
   }
 
   const voteAnswer = async (aid, vote) => {
-    const url = `http://localhost:5000/api/answers/openForAll/${aid}/${vote}`
+    const url = `http://localhost:5000/api/answers/${school}/${aid}/${vote}`
     const res = await axios
       .post(url, {
-        email: user.email,
+        email: user.schoolEmail,
       })
       .catch((err) => {
         return {
@@ -261,9 +261,6 @@ const CompleteQuestion = () => {
     })
   }
 
-  // when we logout and login the hasUpvoted and hasDownvoted do not get reset for new user, hence if earlier user has voted for a question, the new user is not able to vote for the question from the same device. So when a user logges out,we should store that votes with the user details in mongodb and when a new user logges in we should retrieve it from there
-
-
   return (
     <div>
       {errorMessage && (
@@ -318,7 +315,7 @@ const CompleteQuestion = () => {
                           >
                             <BiUpArrow
                               color="green"
-                              className="text-sm md:text-2xl"
+                              className="text-sm md:text-2xl clickEffect"
                             />
                           </div>
                           <div className="">
@@ -342,7 +339,7 @@ const CompleteQuestion = () => {
                           >
                             <BiDownArrow
                               color="red"
-                              className="text-sm md:text-2xl"
+                              className="text-sm md:text-2xl clickEffect"
                             />
                           </div>
                         </div>
@@ -384,7 +381,7 @@ const CompleteQuestion = () => {
             ></textarea>
             <div
               onClick={handlePostAnswer}
-              className="button bg-red-500 w-fit px-[1vw] py-[0.5vh] rounded-sm mb-[2vh]"
+              className="button bg-red-500 w-fit px-[1vw] py-[0.5vh] rounded-sm mb-[2vh] clickEffect cursor-pointer"
             >
               <button className="text-white text-sm md:text-xl">
                 Post Answer
@@ -397,4 +394,4 @@ const CompleteQuestion = () => {
   )
 }
 
-export default CompleteQuestion
+export default SchoolCompleteQuestion

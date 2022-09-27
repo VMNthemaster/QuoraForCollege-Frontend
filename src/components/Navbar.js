@@ -69,6 +69,7 @@ const Navbar = () => {
         generalEmail: user.email,
       })
       .catch((err) => {
+        console.log(err)
         return {
           data: {
             message: err.response.data.message,
@@ -132,14 +133,14 @@ const Navbar = () => {
           <div className="">
             <button
               onClick={handleSchool}
-              className="border-[0.5px] md:border-[2px] px-[2vw] md:px-[1vw] py-[0.75vh] rounded-md font-serif text-white bg-blue-700 text-sm md:text-xl"
+              className="border-[0.5px] md:border-[2px] px-[2vw] md:px-[1vw] py-[0.75vh] rounded-md font-serif text-white bg-blue-700 text-sm md:text-xl clickEffect"
             >
               {user.school === 'Anonymous' ? 'Join School' : 'Leave School'}
             </button>
           </div>
           <div
             onClick={() => setIsProfileModalOpen(true)}
-            className="profile bg-green-700 rounded-full h-[6vh] w-[6vh] flex justify-center items-center cursor-pointer"
+            className="profile bg-green-700 rounded-full h-[6vh] w-[6vh] flex justify-center items-center cursor-pointer clickEffect"
           >
             <h2 className="text-white font-bold font-serif text-xl">
               {user.name[0]}
@@ -148,7 +149,7 @@ const Navbar = () => {
           <div className="">
             <button
               onClick={handleLogout}
-              className="border-[0.5px] md:border-[2px] px-[2vw] md:px-[1vw] py-[0.75vh] rounded-md font-serif text-white bg-red-600 text-sm md:text-xl"
+              className="border-[0.5px] md:border-[2px] px-[2vw] md:px-[1vw] py-[0.75vh] rounded-md font-serif text-white bg-red-600 text-sm md:text-xl clickEffect"
             >
               Log Out
             </button>

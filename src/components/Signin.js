@@ -150,7 +150,7 @@ const Signin = () => {
           <div className="">
           <button
             type="button"
-            className="w-[20vw] md:w-[10vw] border-[0.5px] md:border-[2px] bg-red-600 text-white font-serif px-[1vw] py-[0.75vh] rounded-md text-sm md:text-xl focus:outline-none"
+            className="w-[20vw] md:w-[10vw] border-[0.5px] md:border-[2px] bg-red-600 text-white font-serif px-[1vw] py-[0.75vh] rounded-md text-sm md:text-xl focus:outline-none clickEffect"
             onClick={handleSubmit}
           >
             Signin

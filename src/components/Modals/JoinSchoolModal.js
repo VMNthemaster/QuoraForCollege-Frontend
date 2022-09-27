@@ -97,7 +97,7 @@ const JoinSchoolModal = (props) => {
     <div className="flex flex-col w-[94vw] md:w-[50vw] px-[2vw] py-[3vh] relative bg-gradient-to-r from-cyan-500 to-blue-400 rounded-md">
       <div
         onClick={() => setIsSchoolModalOpen(false)}
-        className="close absolute top-2 right-2"
+        className="close absolute top-2 right-2 clickEffect"
       >
         <ImCross className="text-white font-medium text-sm md:text-xl cursor-pointer" />
       </div>
@@ -165,7 +165,7 @@ const JoinSchoolModal = (props) => {
       <div className="mt-[2.5vh]">
         <button
           onClick={handleSubmit}
-          className="border-[0.5px] md:border-2 bg-white text-cyan-600 px-[1vw] py-[0.75vh] rounded-md font-serif font-semibold"
+          className="border-[0.5px] md:border-2 bg-white text-cyan-600 px-[1vw] py-[0.75vh] rounded-md font-serif font-semibold clickEffect"
         >
           Join School
         </button>

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const AdminHomePage = () => {
+  // create 4 cards; add and remove admin, add and remove student
   const navigate = useNavigate()
   const isAdminLoggedIn = useSelector(state => state.isAdminLoggedIn)
   useEffect(() => {

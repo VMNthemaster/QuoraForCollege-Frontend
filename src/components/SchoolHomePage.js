@@ -1,30 +1,35 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import useState from 'react-usestateref'
-import Loader from '../assets/Loader.png'
 import { BsSearch } from 'react-icons/bs'
 import { GiFountainPen } from 'react-icons/gi'
-import CreateQuestion from './Modals/CreateQuestion'
+import { useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import useState from 'react-usestateref'
+import Loader from '../assets/Loader.png'
+import SchoolCreateQuestion from './Modals/SchoolCreateQuestion'
 
-const StudentHomePage = () => {
+const SchoolHomePage = () => {
+  const { school } = useParams()
   const navigate = useNavigate()
+  const user = useSelector((state) => state.user)
   const isStudentLoggedIn = useSelector((state) => state.isStudentLoggedIn)
   const [isLoading, setIsLoading] = useState(true)
   const [allQuestions, setAllQuestions] = useState([])
-  const [isCreateQuestionModalOpen, setIsCreateQuestionModalOpen] =
-    useState(false)
   const [searchQuestion, setSearchQuestion, getSearchQuestion] = useState('')
+  const [isCreateQuestionModalOpen, setIsCreateQuestionModalOpen] = useState(false)
+
 
   useEffect(() => {
+    if (school !== user.school || school === 'Anonymous') {
+      navigate('/student')
+    }
     if (!isStudentLoggedIn) {
       navigate('/')
     }
 
     async function sendRequestToBackend() {
       const res = await axios
-        .get('http://localhost:5000/api/questions/openForAll/getAllQuestions')
+        .get(`http://localhost:5000/api/questions/${school}/getAllQuestions`)
         .catch((err) => {
           return {
             data: {
@@ -44,11 +49,12 @@ const StudentHomePage = () => {
         setIsLoading(false)
       }
     })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleQuestionClick = (qid) => {
-    navigate(`/student/${qid}`)
+    navigate(`/${school}/${qid}`)
   }
 
   const handleSearchQuestion = (e) => {
@@ -58,7 +64,7 @@ const StudentHomePage = () => {
   useEffect(() => {
     if(searchQuestion){
       const searchQuestionRequestToBackend = async () => {
-        const url = 'http://localhost:5000/api/questions/openForAll/searchQuestion'
+        const url = `http://localhost:5000/api/questions/${school}/searchQuestion`
         const res = await axios.post(url, {
           question: getSearchQuestion.current
         })
@@ -84,7 +90,6 @@ const StudentHomePage = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuestion])
-  
 
   return (
     <div className="min-h-[91vh] bg-gray-100 ">
@@ -129,8 +134,8 @@ const StudentHomePage = () => {
             <GiFountainPen color="black" />
           </div>
           {isCreateQuestionModalOpen && (
-            <div className="fixed customStyles">
-              <CreateQuestion
+            <div className="fixed customStyles"> 
+              <SchoolCreateQuestion
                 setIsCreateQuestionModalOpen={setIsCreateQuestionModalOpen}
               />
             </div>
@@ -146,4 +151,4 @@ const StudentHomePage = () => {
   )
 }
 
-export default StudentHomePage
+export default SchoolHomePage
