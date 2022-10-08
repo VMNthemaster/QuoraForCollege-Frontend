@@ -30,7 +30,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     const updateUser = async () => {
-      const url = 'http://localhost:5000/api/users/updateUser'
+      const url = 'https://quora-for-college.onrender.com/api/users/updateUser'
       const res = await axios
         .patch(url, {
           email: user.email,
@@ -61,7 +61,7 @@ const Navbar = () => {
 
   const leaveSchool = async () => {
     const school = user.school
-    const url = `http://localhost:5000/api/schools/leaveSchool/${school}`
+    const url = `https://quora-for-college.onrender.com/api/schools/leaveSchool/${school}`
 
     const res = await axios
       .post(url, {

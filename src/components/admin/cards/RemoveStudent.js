@@ -23,7 +23,7 @@ const RemoveStudent = (props) => {
         status: 400,
       }
     }
-    const url = `http://localhost:5000/api/schools/${user.school}/removeStudent`
+    const url = `https://quora-for-college.onrender.com/api/schools/${user.school}/removeStudent`
     const res = await axios
       .patch(url, {
         email: studentEmail,

@@ -42,7 +42,7 @@ const JoinSchoolModal = (props) => {
         status: 400,
       }
     }
-    const url = `http://localhost:5000/api/schools/joinSchool`
+    const url = `https://quora-for-college.onrender.com/api/schools/joinSchool`
     const res = await axios
       .post(url, {
         email: joinSchoolDetails.studentEmail || '',

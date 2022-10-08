@@ -21,7 +21,7 @@ const AdminLogin = () => {
   const [showErrorMessage, setShowErrorMessage] = useState(false)
 
   const sendRequestToBackend = async () => {
-    const url = 'http://localhost:5000/api/users/adminLogin'
+    const url = 'https://quora-for-college.onrender.com/api/users/adminLogin'
     const res = await axios
       .post(url, {
         email: getAdminDetails.current.adminEmail || '',
