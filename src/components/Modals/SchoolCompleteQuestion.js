@@ -41,7 +41,7 @@ const SchoolCompleteQuestion = () => {
     async function sendRequestToBackend() {
       const res = await axios
         .get(
-          `http://localhost:5000/api/questions/${school}/getSingleQuestion/${questionid}`
+          `https://quora-for-college-backend.onrender.com/api/questions/${school}/getSingleQuestion/${questionid}`
         )
         .catch((err) => {
           return {
@@ -78,7 +78,7 @@ const SchoolCompleteQuestion = () => {
     const getAnswers = async () => {
       const res = await axios
         .get(
-          `http://localhost:5000/api/questions/${school}/${questionid}/getAllAnswers`
+          `https://quora-for-college-backend.onrender.com/api/questions/${school}/${questionid}/getAllAnswers`
         )
         .catch((err) => {
           return {

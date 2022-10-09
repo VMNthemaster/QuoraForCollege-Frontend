@@ -24,7 +24,7 @@ const StudentHomePage = () => {
 
     async function sendRequestToBackend() {
       const res = await axios
-        .get('http://localhost:5000/api/questions/openForAll/getAllQuestions')
+        .get('https://quora-for-college-backend.onrender.com/api/questions/openForAll/getAllQuestions')
         .catch((err) => {
           return {
             data: {

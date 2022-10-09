@@ -29,7 +29,7 @@ const SchoolHomePage = () => {
 
     async function sendRequestToBackend() {
       const res = await axios
-        .get(`http://localhost:5000/api/questions/${school}/getAllQuestions`)
+        .get(`https://quora-for-college-backend.onrender.com/api/questions/${school}/getAllQuestions`)
         .catch((err) => {
           return {
             data: {

@@ -39,7 +39,7 @@ const CompleteQuestion = () => {
     async function sendRequestToBackend() {
       const res = await axios
         .get(
-          `http://localhost:5000/api/questions/openForAll/getSingleQuestion/${questionid}`
+          `https://quora-for-college-backend.onrender.com/api/questions/openForAll/getSingleQuestion/${questionid}`
         )
         .catch((err) => {
           return {
@@ -76,7 +76,7 @@ const CompleteQuestion = () => {
     const getAnswers = async () => {
       const res = await axios
         .get(
-          `http://localhost:5000/api/questions/openForAll/${questionid}/getAllAnswers`
+          `https://quora-for-college-backend.onrender.com/api/questions/openForAll/${questionid}/getAllAnswers`
         )
         .catch((err) => {
           return {
