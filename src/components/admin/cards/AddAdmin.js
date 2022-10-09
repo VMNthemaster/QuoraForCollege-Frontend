@@ -35,7 +35,7 @@ const AddAdmin = (props) => {
         status: 400,
       }
     }
-    const url = `https://quora-for-college.onrender.com/api/schools/${user.school}/addAdmin`
+    const url = `https://quora-for-college-backend.onrender.com/api/schools/${user.school}/addAdmin`
     const res = await axios
       .patch(url, {
         email: adminDetails.adminEmail,

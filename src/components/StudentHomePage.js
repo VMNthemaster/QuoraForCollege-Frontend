@@ -58,7 +58,7 @@ const StudentHomePage = () => {
   useEffect(() => {
     if(searchQuestion){
       const searchQuestionRequestToBackend = async () => {
-        const url = 'https://quora-for-college.onrender.com/api/questions/openForAll/searchQuestion'
+        const url = 'https://quora-for-college-backend.onrender.com/api/questions/openForAll/searchQuestion'
         const res = await axios.post(url, {
           question: getSearchQuestion.current
         })

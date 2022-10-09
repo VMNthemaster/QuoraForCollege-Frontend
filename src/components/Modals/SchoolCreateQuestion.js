@@ -76,7 +76,7 @@ const SchoolCreateQuestion = (props) => {
       }
     }
 
-    const url = `https://quora-for-college.onrender.com/api/questions/${school}/addQuestion`
+    const url = `https://quora-for-college-backend.onrender.com/api/questions/${school}/addQuestion`
     const res = await axios.post(url, {
       question: questionDetails.question,
       askedBy: user.schoolName,

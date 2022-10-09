@@ -134,7 +134,7 @@ const CompleteQuestion = () => {
         status: 400,
       }
     }
-    const url = `https://quora-for-college.onrender.com/api/questions/openForAll/${questionid}/addAnswer`
+    const url = `https://quora-for-college-backend.onrender.com/api/questions/openForAll/${questionid}/addAnswer`
     const res = await axios
       .post(url, {
         name: user.name,
@@ -191,7 +191,7 @@ const CompleteQuestion = () => {
   }
 
   const voteAnswer = async (aid, vote) => {
-    const url = `https://quora-for-college.onrender.com/api/answers/openForAll/${aid}/${vote}`
+    const url = `https://quora-for-college-backend.onrender.com/api/answers/openForAll/${aid}/${vote}`
     const res = await axios
       .post(url, {
         email: user.email,

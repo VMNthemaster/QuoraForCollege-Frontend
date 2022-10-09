@@ -28,7 +28,7 @@ const StudentLogin = () => {
   }
 
   const sendRequestToBackend = async () => {
-    const url = 'https://quora-for-college.onrender.com/api/users/studentLogin'
+    const url = 'https://quora-for-college-backend.onrender.com/api/users/studentLogin'
     const res = await axios
       .post(url, {
         email: getStudentDetails.current.studentEmail,

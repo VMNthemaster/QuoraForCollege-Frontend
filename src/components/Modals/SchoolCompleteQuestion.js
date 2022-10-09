@@ -134,7 +134,7 @@ const SchoolCompleteQuestion = () => {
         status: 400,
       }
     }
-    const url = `https://quora-for-college.onrender.com/api/questions/${school}/${questionid}/addAnswer`
+    const url = `https://quora-for-college-backend.onrender.com/api/questions/${school}/${questionid}/addAnswer`
     const res = await axios
       .post(url, {
         name: user.schoolName,
@@ -191,7 +191,7 @@ const SchoolCompleteQuestion = () => {
   }
 
   const voteAnswer = async (aid, vote) => {
-    const url = `https://quora-for-college.onrender.com/api/answers/${school}/${aid}/${vote}`
+    const url = `https://quora-for-college-backend.onrender.com/api/answers/${school}/${aid}/${vote}`
     const res = await axios
       .post(url, {
         email: user.schoolEmail,

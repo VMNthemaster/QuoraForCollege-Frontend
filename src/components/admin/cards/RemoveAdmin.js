@@ -23,7 +23,7 @@ const RemoveAdmin = (props) => {
         status: 400,
       }
     }
-    const url = `https://quora-for-college.onrender.com/api/schools/${user.school}/addStudent`
+    const url = `https://quora-for-college-backend.onrender.com/api/schools/${user.school}/addStudent`
     const res = await axios
       .patch(url, {
         email: adminEmail,

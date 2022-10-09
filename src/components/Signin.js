@@ -28,7 +28,7 @@ const Signin = () => {
         
       }
     }
-    const url = 'https://quora-for-college.onrender.com/api/users/signup'
+    const url = 'https://quora-for-college-backend.onrender.com/api/users/signup'
     const res = await axios
       .post(url, {
         name: getUserDetails.current.name || '',
